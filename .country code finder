@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Country Code Finder — International Dialing Codes, ISO & Flags</title>
+  <meta name="description" content="Country Code Finder — fast searchable list of international dialing codes, ISO2/ISO3, and flags. Copy codes, export CSV. Ideal for developers, bloggers and mobile apps.">
+  <meta name="keywords" content="country code finder,country dialing codes,international calling code,ISO country codes,phone codes,flag icons,copy code,export csv,SEO tool,AdMob,Ad integration,developer tool">
+  <meta name="author" content="Sumair Randhawa">
+  <link rel="canonical" href="https://example.com/country-code-finder">
+  <meta name="robots" content="index,follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Country Code Finder — Find phone country codes">
+  <meta property="og:description" content="Search and copy country dialing codes, view flags and ISO codes. Responsive, colorful tool for blogs and apps.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://example.com/og-image-country-codes.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Country Code Finder — Find phone country codes">
+  <meta name="twitter:description" content="Search and copy country dialing codes, view flags and ISO codes. Responsive, colorful tool for blogs and apps.">
+
+  <!-- Structured data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Country Code Finder",
+    "description": "Search and copy country dialing codes, view flags and ISO codes. Export CSV.",
+    "url": "https://example.com/country-code-finder",
+    "applicationCategory": "Utilities",
+    "author": {"@type":"Person","name":"Sumair Randhawa"}
+  }
+  </script>
+
+  <!-- External libs (Bootstrap 5 + Font Awesome) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{--bg:#071033;--card:#071827;--accent1:#7c3aed;--accent2:#06b6d4;--muted:rgba(255,255,255,0.72)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,var(--bg),#04102a);color:var(--muted)}
+    .container{padding:28px}
+    .card-app{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:12px}
+    .brand{font-weight:700;color:#fff}
+    .search-input{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit}
+    .country-row{transition:transform .12s ease, box-shadow .12s ease;border-radius:8px}
+    .country-row:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    .flag{width:40px;height:28px;object-fit:cover;border-radius:4px}
+    .chip{background:rgba(255,255,255,0.03);padding:.28rem .6rem;border-radius:999px;font-size:.86rem}
+    .accent-strip{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--accent1),var(--accent2));margin-top:1rem}
+    .muted{opacity:.9}
+    .small-muted{opacity:.65;font-size:.9rem}
+    @media (max-width:576px){.flag{width:28px;height:20px}}
+
+    /* Accessibility focus */
+    .list-group-item:focus{outline:3px solid rgba(124,58,237,0.18)}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="card-app">
+      <header class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <h1 class="brand h4 mb-1">Country Code Finder</h1>
+          <p class="small-muted mb-0">Search dialing codes, ISO2/ISO3, flags — copy codes, export CSV. SEO optimized single-file tool.</p>
+        </div>
+        <div class="text-end">
+          <button id="themeToggle" class="btn btn-sm btn-outline-light me-2" aria-label="Toggle theme"><i class="fa-regular fa-sun"></i></button>
+          <button id="exportBtn" class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i> Export CSV</button>
+        </div>
+      </header>
+
+      <div class="accent-strip" aria-hidden="true"></div>
+
+      <section class="row g-2 mt-3" aria-label="Search controls">
+        <div class="col-12 col-md-8">
+          <input id="search" class="form-control search-input" placeholder="Search country / ISO / dial code — e.g., India, IN, +91" aria-label="Search country">
+        </div>
+        <div class="col-6 col-md-2">
+          <select id="filter" class="form-select search-input" aria-label="Filter by region">
+            <option value="all">All regions</option>
+            <option value="asia">Asia</option>
+            <option value="europe">Europe</option>
+            <option value="africa">Africa</option>
+            <option value="americas">Americas</option>
+            <option value="oceania">Oceania</option>
+          </select>
+        </div>
+        <div class="col-6 col-md-2 d-grid">
+          <button id="detectBtn" class="btn btn-outline-light" aria-label="Detect country">Detect Country</button>
+        </div>
+      </section>
+
+      <section class="mt-3" aria-label="Country results">
+        <div id="list" class="list-group" role="list">
+          <!-- injected rows -->
+        </div>
+        <div id="noResults" class="text-center muted mt-3" style="display:none">No matching country found.</div>
+      </section>
+
+      <div class="mt-3 d-flex gap-2 flex-wrap align-items-center">
+        <div class="chip"><i class="fa-regular fa-copy"></i> <span id="copiedLabel">Ready</span></div>
+        <div class="small-muted">Tip: click a row to copy its dialing code. Use the Export CSV button to download all codes for offline use.</div>
+      </div>
+
+      <hr class="my-3">
+
+      <!-- Ad placeholders: For web, use AdSense. For mobile apps, use AdMob plugin and these ad unit IDs. -->
+      <div class="small-muted mb-2">Ad units (placeholders). For mobile app integration (Cordova/Capacitor/Native), use the AdMob unit IDs below with your ad plugin.</div>
+      <div class="mb-3">
+        <!-- Web placeholder (does not load AdMob on web) -->
+        <div id="web-ad-banner" style="min-height:60px;border-radius:8px;border:1px dashed rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">Web Ad Placeholder (Use AdSense on web)</div>
+      </div>
+
+      <div class="small-muted">Mobile Ad Unit IDs (insert into your mobile app AdMob plugin):</div>
+      <pre class="small-muted">const ADMOB_AD_UNIT_1 = 'ca-app-pub-5978858871012373/7147406049';
+const ADMOB_AD_UNIT_2 = 'ca-app-pub-5978858871012373/6935266018';</pre>
+
+      <div class="small-muted mt-2">Example (Cordova / AdMob plugin):</div>
+      <pre class="small-muted">// using admob-plus (example)
+// admob.banner.show({id: ADMOB_AD_UNIT_1});
+// admob.interstitial.load({id: ADMOB_AD_UNIT_2}).then(()=>admob.interstitial.show());
+</pre>
+
+      <footer class="mt-3 small-muted">Developer notes: Flags served from flagcdn.com for performance. This page includes meta tags and JSON-LD for SEO. Customize canonical, og:image and structured data before publishing.</footer>
+
+    </div>
+  </main>
+
+  <script>
+    // =========================
+    // Ad Unit IDs (as requested)
+    // These variables store the AdMob ad unit IDs you provided.
+    // Note: AdMob IDs (ca-app-pub-...) are for mobile apps. If you plan to use ads on a web page, use Google AdSense publisher IDs (ca-pub-...). For Cordova/Capacitor/native apps use the respective AdMob plugin and set these IDs there.
+    const ADMOB_AD_UNIT_1 = 'ca-app-pub-5978858871012373/7147406049';
+    const ADMOB_AD_UNIT_2 = 'ca-app-pub-5978858871012373/6935266018';
+
+    // Example usage comment:
+    // Cordova plugin (e.g. admob-plus):
+    // admob.banner.show({ id: ADMOB_AD_UNIT_1 });
+    // admob.banner.show({ id: ADMOB_AD_UNIT_2 });
+    // =========================
+
+    // Minimal country list (expanded set). You can extend or load via JSON.
+    const countries = [
+      {name:'Afghanistan',iso2:'AF',iso3:'AFG',dial_code:'+93',region:'asia'},
+      {name:'Albania',iso2:'AL',iso3:'ALB',dial_code:'+355',region:'europe'},
+      {name:'Algeria',iso2:'DZ',iso3:'DZA',dial_code:'+213',region:'africa'},
+      {name:'Argentina',iso2:'AR',iso3:'ARG',dial_code:'+54',region:'americas'},
+      {name:'Australia',iso2:'AU',iso3:'AUS',dial_code:'+61',region:'oceania'},
+      {name:'Austria',iso2:'AT',iso3:'AUT',dial_code:'+43',region:'europe'},
+      {name:'Bangladesh',iso2:'BD',iso3:'BGD',dial_code:'+880',region:'asia'},
+      {name:'Belgium',iso2:'BE',iso3:'BEL',dial_code:'+32',region:'europe'},
+      {name:'Brazil',iso2:'BR',iso3:'BRA',dial_code:'+55',region:'americas'},
+      {name:'Canada',iso2:'CA',iso3:'CAN',dial_code:'+1',region:'americas'},
+      {name:'China',iso2:'CN',iso3:'CHN',dial_code:'+86',region:'asia'},
+      {name:'Egypt',iso2:'EG',iso3:'EGY',dial_code:'+20',region:'africa'},
+      {name:'France',iso2:'FR',iso3:'FRA',dial_code:'+33',region:'europe'},
+      {name:'Germany',iso2:'DE',iso3:'DEU',dial_code:'+49',region:'europe'},
+      {name:'India',iso2:'IN',iso3:'IND',dial_code:'+91',region:'asia'},
+      {name:'Indonesia',iso2:'ID',iso3:'IDN',dial_code:'+62',region:'asia'},
+      {name:'Ireland',iso2:'IE',iso3:'IRL',dial_code:'+353',region:'europe'},
+      {name:'Israel',iso2:'IL',iso3:'ISR',dial_code:'+972',region:'asia'},
+      {name:'Italy',iso2:'IT',iso3:'ITA',dial_code:'+39',region:'europe'},
+      {name:'Japan',iso2:'JP',iso3:'JPN',dial_code:'+81',region:'asia'},
+      {name:'Kenya',iso2:'KE',iso3:'KEN',dial_code:'+254',region:'africa'},
+      {name:'Mexico',iso2:'MX',iso3:'MEX',dial_code:'+52',region:'americas'},
+      {name:'Netherlands',iso2:'NL',iso3:'NLD',dial_code:'+31',region:'europe'},
+      {name:'New Zealand',iso2:'NZ',iso3:'NZL',dial_code:'+64',region:'oceania'},
+      {name:'Nigeria',iso2:'NG',iso3:'NGA',dial_code:'+234',region:'africa'},
+      {name:'Pakistan',iso2:'PK',iso3:'PAK',dial_code:'+92',region:'asia'},
+      {name:'Philippines',iso2:'PH',iso3:'PHL',dial_code:'+63',region:'asia'},
+      {name:'Portugal',iso2:'PT',iso3:'PRT',dial_code:'+351',region:'europe'},
+      {name:'Russia',iso2:'RU',iso3:'RUS',dial_code:'+7',region:'europe'},
+      {name:'Saudi Arabia',iso2:'SA',iso3:'SAU',dial_code:'+966',region:'asia'},
+      {name:'South Africa',iso2:'ZA',iso3:'ZAF',dial_code:'+27',region:'africa'},
+      {name:'South Korea',iso2:'KR',iso3:'KOR',dial_code:'+82',region:'asia'},
+      {name:'Spain',iso2:'ES',iso3:'ESP',dial_code:'+34',region:'europe'},
+      {name:'Sweden',iso2:'SE',iso3:'SWE',dial_code:'+46',region:'europe'},
+      {name:'Switzerland',iso2:'CH',iso3:'CHE',dial_code:'+41',region:'europe'},
+      {name:'Turkey',iso2:'TR',iso3:'TUR',dial_code:'+90',region:'asia'},
+      {name:'United Arab Emirates',iso2:'AE',iso3:'ARE',dial_code:'+971',region:'asia'},
+      {name:'United Kingdom',iso2:'GB',iso3:'GBR',dial_code:'+44',region:'europe'},
+      {name:'United States',iso2:'US',iso3:'USA',dial_code:'+1',region:'americas'}
+    ];
+
+    function flagUrl(iso2){ return `https://flagcdn.com/w40/${iso2.toLowerCase()}.png`; }
+
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const filterEl = document.getElementById('filter');
+    const detectBtn = document.getElementById('detectBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const noResults = document.getElementById('noResults');
+    const copiedLabel = document.getElementById('copiedLabel');
+
+    function render(filterRegion='all', q=''){
+      const query = q.trim().toLowerCase();
+      listEl.innerHTML='';
+      const results = countries.filter(c=>{
+        if(filterRegion!=='all' && c.region !== filterRegion) return false;
+        if(!query) return true;
+        return c.name.toLowerCase().includes(query) || c.iso2.toLowerCase().includes(query) || c.iso3.toLowerCase().includes(query) || c.dial_code.includes(query) || c.dial_code.replace('+','').includes(query);
+      }).sort((a,b)=>a.name.localeCompare(b.name));
+
+      if(results.length===0){ noResults.style.display='block'; return; } else { noResults.style.display='none'; }
+
+      for(const c of results){
+        const row = document.createElement('button');
+        row.className='list-group-item list-group-item-action d-flex align-items-center gap-3 country-row';
+        row.setAttribute('role','listitem');
+        row.innerHTML = `
+          <img loading="lazy" class="flag" src="${flagUrl(c.iso2)}" alt="${c.iso2} flag">
+          <div class="flex-grow-1 text-start">
+            <div class="fw-semibold">${c.name} <small class="muted">(${c.iso2}/${c.iso3})</small></div>
+            <div class="small-muted">Region: ${c.region}</div>
+          </div>
+          <div class="text-end">
+            <div class="fw-bold">${c.dial_code}</div>
+            <div class="small-muted">Click to copy</div>
+          </div>
+        `;
+        row.addEventListener('click', async ()=>{
+          try{
+            await navigator.clipboard.writeText(c.dial_code);
+            copiedLabel.textContent = `${c.name} ${c.dial_code} copied`;
+            row.classList.add('border','border-success');
+            setTimeout(()=>{ row.classList.remove('border','border-success'); },900);
+          }catch(e){
+            copiedLabel.textContent = 'Copy failed — permission?';
+          }
+        });
+        listEl.appendChild(row);
+      }
+    }
+
+    // initial render
+    render();
+
+    // search & filter
+    searchEl.addEventListener('input', ()=> render(filterEl.value, searchEl.value));
+    filterEl.addEventListener('change', ()=> render(filterEl.value, searchEl.value));
+
+    // Export CSV (SEO-friendly filename + UTF-8 BOM for Excel)
+    exportBtn.addEventListener('click', ()=>{
+      const header = ['name','iso2','iso3','dial_code','region'];
+      const rows = countries.map(c=>[c.name,c.iso2,c.iso3,c.dial_code,c.region]);
+      const csv = [header.join(','), ...rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))].join('
+');
+      const bom = new Uint8Array([0xEF,0xBB,0xBF]);
+      const blob = new Blob([bom, csv],{type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='country-codes.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // Detect country from navigator.language (best-effort)
+    detectBtn.addEventListener('click', ()=>{
+      const lang = (navigator.language || navigator.userLanguage || 'en-US');
+      const maybe = lang.split('-')[1] || lang.split('-')[0];
+      if(!maybe){ alert('Could not detect your country from browser language.'); return; }
+      const match = countries.find(c=>c.iso2.toLowerCase()===maybe.toLowerCase());
+      if(match){ searchEl.value = match.name; render(filterEl.value, match.name); copiedLabel.textContent = `Detected ${match.name}`; } else { alert('Could not map your browser locale to a country in the dataset.'); }
+    });
+
+    // Try auto-detect once on load
+    (function tryAutoDetect(){
+      const lang = (navigator.language || navigator.userLanguage || 'en-US');
+      const maybe = lang.split('-')[1] || lang.split('-')[0];
+      if(maybe){
+        const match = countries.find(c=>c.iso2.toLowerCase()===maybe.toLowerCase());
+        if(match){ render('all', match.name); copiedLabel.textContent = `Detected ${match.name}`; }
+      }
+    })();
+
+    // small SEO helper: create hidden table for crawlers (non-intrusive)
+    (function addNoscript(){
+      const table = document.createElement('noscript');
+      let html = '<table>';
+      html += '<tr><th>Name</th><th>ISO2</th><th>Dial</th></tr>';
+      for(const c of countries){ html += `<tr><td>${c.name}</td><td>${c.iso2}</td><td>${c.dial_code}</td></tr>`; }
+      html += '</table>';
+      table.innerHTML = html;
+      document.body.appendChild(table);
+    })();
+
+    // SEO & performance tips:
+    // 1) Set a real canonical URL and og:image before publishing.
+    // 2) Serve this HTML from HTTPS with gzip/brotli compression.
+    // 3) Preload the critical CSS or inline small CSS for fastest first paint.
+    // 4) Consider lazy-loading a larger country dataset via fetch('/countries.json') when the user searches to keep initial payload small.
+
+  </script>
+</body>
+</html>
+
+
+
+
