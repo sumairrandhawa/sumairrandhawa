@@ -1,0 +1,130 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reel Editor & Video Creator | By Sumair Randhawa</title>
+  <meta name="description" content="Create and edit Reels online — trim, merge, add music & export instantly. Free responsive video editor tool by Sumair Randhawa." />
+  <meta name="keywords" content="Reel Editor, Video Creator, Online Video Editor, Free Reel Maker, Sumair Knowledge Hub Tools" />
+  <meta name="author" content="Sumair Randhawa" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Google AdSense Scripts -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5978858871012373"
+     crossorigin="anonymous"></script>
+  
+  <!-- Top Banner Ad -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-5978858871012373"
+       data-ad-slot="4250721911"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#ff6b6b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#071020 0%, #081428 100%);color:#e6eef6;min-height:100vh}
+    .app{max-width:1100px;margin:28px auto;padding:18px}
+    .top{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    h1{margin:0;font-size:22px;color:#fff}
+    p.lead{margin:6px 0;color:var(--muted);font-size:13px}
+    .layout{display:grid;grid-template-columns:1fr 380px;gap:14px;margin-top:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .panel{padding:12px}
+    input,button{font-family:inherit}
+    .btn{background:linear-gradient(90deg,var(--accent),#ff8a5b);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    footer{text-align:center;margin-top:30px;font-size:13px;color:var(--muted)}
+    footer a{color:#ff8a5b;text-decoration:none}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top">
+      <div>
+        <h1>🎬 Reel Editor & Video Creator</h1>
+        <p class="lead">Make short reels, trim videos, add text, and background music online — free by <strong>Sumair Randhawa</strong>.</p>
+      </div>
+      <button id="exportBtn" class="btn">Export Reel</button>
+    </div>
+
+    <!-- Ad in content area -->
+    <div style="margin:10px 0;">
+      <ins class="adsbygoogle"
+           style="display:block;text-align:center;"
+           data-ad-client="ca-pub-5978858871012373"
+           data-ad-slot="2690228230"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <div class="panel">
+          <p>Upload clips, edit duration, add overlay text, choose ratio, preview, and export your final reel video.</p>
+          <input id="videoFiles" type="file" accept="video/*" multiple>
+          <br><br>
+          <input id="audioFile" type="file" accept="audio/*">
+          <br><br>
+          <button id="previewBtn" class="btn">Preview</button>
+          <button id="clearBtn" class="btn ghost">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="panel">
+          <canvas id="previewCanvas" width="720" height="1280" style="width:100%;border-radius:8px;background:#000;"></canvas>
+          <br>
+          <a id="downloadLink" class="btn" style="display:none">Download Reel</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Credit -->
+    <footer>
+      © 2025 <a href="https://sumairknowledgehub.blogspot.com" target="_blank">Sumair Randhawa</a> — All Rights Reserved.<br>
+      Built for GitHub Pages Hosting.  
+    </footer>
+  </div>
+
+  <script>
+    // Minimal example JS (simplified for GitHub host)
+    const videoFilesEl = document.getElementById('videoFiles');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const previewBtn = document.getElementById('previewBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadLink = document.getElementById('downloadLink');
+    const exportBtn = document.getElementById('exportBtn');
+    let clips = [];
+
+    videoFilesEl.addEventListener('change', e => {
+      clips = Array.from(e.target.files);
+      alert(clips.length + " video(s) loaded!");
+    });
+
+    previewBtn.addEventListener('click', () => {
+      const ctx = previewCanvas.getContext('2d');
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, previewCanvas.width, previewCanvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '24px Arial';
+      ctx.fillText('Preview not supported on GitHub Pages demo.', 40, 200);
+    });
+
+    exportBtn.addEventListener('click', () => {
+      alert('Export feature disabled for GitHub demo.\nUse local HTML file for full rendering.');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      clips = [];
+      videoFilesEl.value = '';
+      alert('Cleared all clips.');
+    });
+  </script>
+</body>
+</html
